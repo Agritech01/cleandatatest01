@@ -2707,15 +2707,33 @@ function checkAgeRange(age, minAge, maxAge) {
         // ============================================
         // ขั้นตอนที่ 1: อัปโหลดไฟล์ CSV (แก้ไขให้กดคลิกครั้งเดียว)
         // ============================================
-        uploadArea.addEventListener('click', () => csvFileInput.click());
-        browseBtn.addEventListener('click', () => csvFileInput.click());
-        
-        // ✅ แก้ไข: เพิ่ม event listener สำหรับ drag and drop
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.style.borderColor = 'var(--primary-color)';
-            uploadArea.style.backgroundColor = 'rgba(76, 201, 240, 0.1)';
-        });
+// ✅ แก้ไข: ฟังก์ชันอัปโหลดไฟล์ที่ทำงานได้
+function openFileDialog() {
+    console.log('เปิดหน้าต่างเลือกไฟล์...');
+    csvFileInput.click();
+}
+
+// ✅ ปุ่ม "เลือกไฟล์ CSV" - ใช้ onclick แบบตรง
+browseBtn.onclick = function() {
+    console.log('คลิกปุ่ม Browse');
+    openFileDialog();
+};
+
+// ✅ พื้นที่อัปโหลด - ใช้ onclick แบบตรง
+uploadArea.onclick = function(event) {
+    // ตรวจสอบว่าไม่ได้คลิกที่ปุ่ม
+    if (event.target !== browseBtn && !browseBtn.contains(event.target)) {
+        console.log('คลิกพื้นที่อัปโหลด');
+        openFileDialog();
+    }
+};
+
+// ✅ แก้ไข: เพิ่ม event listener สำหรับ drag and drop
+uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = 'var(--primary-color)';
+    uploadArea.style.backgroundColor = 'rgba(76, 201, 240, 0.1)';
+});
         
         uploadArea.addEventListener('dragleave', (e) => {
             e.preventDefault();
