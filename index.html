@@ -1190,116 +1190,125 @@
             padding: 0;
         }
         
-        .checking-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 1000px;
-        }
+.checking-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1300px; /* ✅ เพิ่มความกว้างให้พอดีกับคอลัมน์ใหม่ */
+}
         
-        /* ปรับขนาดคอลัมน์สำหรับตารางตรวจสอบเงื่อนไข */
-        .checking-table th:nth-child(1),
-        .checking-table td:nth-child(1) {
-            width: 50px;
-            min-width: 50px;
-            max-width: 50px;
-            text-align: center;
-        }
-        
-        .checking-table th:nth-child(2),
-        .checking-table td:nth-child(2) {
-            width: 150px;
-            min-width: 150px;
-            max-width: 150px;
-        }
-        
-        .checking-table th:nth-child(3),
-        .checking-table td:nth-child(3) {
-            width: 150px;
-            min-width: 150px;
-            max-width: 150px;
-        }
-        
-        .checking-table th:nth-child(4),
-        .checking-table td:nth-child(4) {
-            width: 120px;
-            min-width: 120px;
-            max-width: 120px;
-        }
-        
-        .checking-table th:nth-child(5),
-        .checking-table td:nth-child(5) {
-            width: 100px;
-            min-width: 100px;
-            max-width: 100px;
-            text-align: center;
-        }
-        
-        .checking-table th:nth-child(6),
-        .checking-table td:nth-child(6) {
-            width: 150px;
-            min-width: 150px;
-            max-width: 150px;
-        }
-        
-        .checking-table th:nth-child(7),
-        .checking-table td:nth-child(7) {
-            width: 120px;
-            min-width: 120px;
-            max-width: 120px;
-        }
-        
-        .checking-table th:nth-child(8),
-        .checking-table td:nth-child(8) {
-            width: 120px;
-            min-width: 120px;
-            max-width: 120px;
-            text-align: center;
-        }
-        
-        .checking-table th:nth-child(9),
-        .checking-table td:nth-child(9) {
-            width: 120px;
-            min-width: 120px;
-            max-width: 120px;
-            text-align: center;
-        }
-        
-        .checking-table th:nth-child(10),
-        .checking-table td:nth-child(10) {
-            width: 200px;
-            min-width: 200px;
-            max-width: 200px;
-        }
-        
-        /* ปรับปรุงการแสดงผลวันที่ปลูก */
-        .checking-table td:nth-child(4) {
-            font-size: 0.9em;
-            word-break: break-word;
-            white-space: normal;
-            line-height: 1.3;
-        }
-        
-        .checking-table th {
-            background: var(--primary-color);
-            color: white;
-            padding: 12px 15px;
-            text-align: left;
-            font-weight: 500;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            border-bottom: 2px solid var(--secondary-color);
-        }
-        
-        .checking-table td {
-            padding: 10px 15px;
-            border-bottom: 1px solid #eee;
-            transition: background-color 0.3s ease;
-        }
-        
-        .checking-table tr:hover td {
-            background: #f8f9fa;
-        }
+/* ✅ ปรับขนาดคอลัมน์ใหม่ทั้งหมด 12 คอลัมน์ */
+.checking-table th:nth-child(1),
+.checking-table td:nth-child(1) {
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+    text-align: center;
+    position: sticky;
+    left: 0;
+    background: var(--primary-color);
+    color: white;
+    z-index: 20;
+}
+
+.checking-table td:nth-child(1) {
+    background: white;
+    color: var(--dark-color);
+    border-right: 1px solid #eee;
+}
+
+.checking-table th:nth-child(2),
+.checking-table td:nth-child(2) {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+    position: sticky;
+    left: 60px;
+    background: var(--primary-color);
+    color: white;
+    z-index: 20;
+    border-right: 1px solid #ddd;
+}
+
+.checking-table td:nth-child(2) {
+    background: #f8f9fa;
+    color: var(--dark-color);
+}
+
+.checking-table th:nth-child(3),
+.checking-table td:nth-child(3) {
+    width: 130px;
+    min-width: 130px;
+    max-width: 130px;
+}
+
+.checking-table th:nth-child(4),
+.checking-table td:nth-child(4) {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    text-align: center;
+}
+
+.checking-table th:nth-child(5),
+.checking-table td:nth-child(5) {
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+}
+
+.checking-table th:nth-child(6),
+.checking-table td:nth-child(6) {
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+}
+
+.checking-table th:nth-child(7),
+.checking-table td:nth-child(7) {
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+}
+
+.checking-table th:nth-child(8),
+.checking-table td:nth-child(8) {
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+}
+
+.checking-table th:nth-child(9),
+.checking-table td:nth-child(9) {
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+}
+
+.checking-table th:nth-child(10),
+.checking-table td:nth-child(10) {
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+}
+
+/* ✅ คอลัมน์สถานะ (คอลัมน์ที่ 11) */
+.checking-table th:nth-child(11),
+.checking-table td:nth-child(11) {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    text-align: center;
+    background-color: #f8f9fa;
+}
+
+/* ✅ คอลัมน์หมายเหตุ (คอลัมน์ที่ 12) */
+.checking-table th:nth-child(12),
+.checking-table td:nth-child(12) {
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    background-color: #f8f9fa;
+}
         
         /* ✅ แถวที่ไม่มีข้อมูลวันที่ปลูก - สีเหลือง */
         .checking-table tr.warning-row {
@@ -2283,18 +2292,16 @@
                 <!-- ตารางแสดงข้อมูลและผลตรวจสอบ -->
                 <div class="checking-table-container">
                     <div class="table-controls">
-                        <div class="table-info">
-                            <span><i class="fas fa-table"></i> ตารางผลการตรวจสอบเงื่อนไข (แสดงข้อมูลทั้งหมด)</span>
-                        </div>
-                        <div class="table-actions">
-                            <button class="btn btn-outline btn-sm" id="showOnlyFailed">
-                                <i class="fas fa-filter"></i> แสดงเฉพาะที่ไม่ผ่าน
-                            </button>
-                            <button class="btn btn-outline btn-sm" id="showAllResults">
-                                <i class="fas fa-list"></i> แสดงทั้งหมด
-                            </button>
-                        </div>
-                    </div>
+    <div class="table-info">
+        <span><i class="fas fa-table"></i> ตารางผลการตรวจสอบเงื่อนไข</span>
+        <span id="scrollHint" style="color: var(--accent-color); font-size: 0.9rem; margin-left: 15px;">
+            <i class="fas fa-arrow-right"></i> เลื่อนเพื่อดูสถานะและหมายเหตุ
+        </span>
+    </div>
+    <div class="table-actions">
+        <!-- ... -->
+    </div>
+</div>
                     
                     <div class="checking-table-wrapper">
                         <table class="checking-table" id="checkingTable">
@@ -5746,10 +5753,16 @@ function prepareFertilizerCheckingTable() {
     tableHeader.appendChild(headerRow);
     
     // แสดงตาราง
-    renderFertilizerCheckingTable();
-    
-    // อัพเดตจำนวนแถว
-    document.getElementById('checkingRowsCount').textContent = checkingTableData.length;
+renderFertilizerCheckingTable();
+
+// ✅ แสดงคำแนะนำการเลื่อน
+const scrollHint = document.getElementById('scrollHint');
+if (scrollHint) {
+    scrollHint.style.display = 'inline-block';
+}
+
+// อัพเดตจำนวนแถว
+document.getElementById('checkingRowsCount').textContent = checkingTableData.length;
     
     // แสดงข้อความแจ้งเตือนสำเร็จ
     const resultsContainer = document.getElementById('checkingResults');
