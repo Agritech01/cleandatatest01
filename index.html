@@ -2233,104 +2233,1199 @@
                 </div>
             </div>
             
-            <!-- Step 4: Condition Checking -->
-            <div class="step-panel" id="panel4">
-                <div class="panel-header">
-                    <h2><i class="fas fa-search"></i> ตรวจสอบเงื่อนไขข้อมูลอ้อย</h2>
-                    <p>เลือกเงื่อนไขที่ต้องการตรวจสอบ และดูผลการตรวจสอบในตารางด้านล่าง</p>
-                </div>
-                
-                <!-- ปุ่มเลือกเงื่อนไข -->
-                <div class="condition-selection">
-                    <h3><i class="fas fa-filter"></i> เลือกเงื่อนไขที่ต้องการตรวจสอบ</h3>
-                    <div class="condition-buttons">
-                        <button class="condition-select-btn active" data-condition="sugarcane">
-                            <i class="fas fa-seedling"></i> ประเภทอ้อย
-                            <span class="condition-desc">(ต้องมีคอลัมน์: ชื่อประเภทอ้อย, วันที่ปลูก)</span>
-                        </button>
-                        <button class="condition-select-btn" data-condition="fertilizer">
-                            <i class="fas fa-prescription-bottle"></i> ปุ๋ย
-                            <span class="condition-desc">(ต้องมีคอลัมน์ที่เกี่ยวข้องกับปุ๋ย)</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- ข้อมูลการตรวจสอบ -->
-                <div class="checking-controls">
-                    <div class="checking-info">
-                        <h4><i class="fas fa-info-circle"></i> สถานะการตรวจสอบ</h4>
-                        <div class="checking-stats">
-                            <span>เงื่อนไขที่เลือก: <strong id="selectedCondition">ประเภทอ้อย</strong></span>
-                            <span>ตรวจพบ: <strong id="foundIssues">0</strong> ปัญหา</span>
-                            <span>ผ่าน: <strong id="passedChecks">0</strong> รายการ</span>
-                            <span>ไม่ผ่าน: <strong id="failedChecks">0</strong> รายการ</span>
-                            <span>แสดง: <strong id="checkingRowsCount">0</strong> แถวทั้งหมด</span>
-                        </div>
-                    </div>
-                    <div class="checking-actions">
-                        <button class="btn btn-primary" id="runSelectedCheck">
-                            <i class="fas fa-play"></i> เริ่มตรวจสอบเงื่อนไขที่เลือก
-                        </button>
-                        <button class="btn btn-success" id="runAllChecks">
-                            <i class="fas fa-play-circle"></i> ตรวจสอบเงื่อนไขทั้งหมด
-                        </button>
-                        <button class="btn btn-outline" id="exportCheckResults">
-                            <i class="fas fa-download"></i> ส่งออกผลตรวจสอบ
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- ตารางแสดงข้อมูลและผลตรวจสอบ -->
-                <div class="checking-table-container">
-                    <div class="table-controls">
-                        <div class="table-info">
-                            <span><i class="fas fa-table"></i> ตารางผลการตรวจสอบเงื่อนไข (แสดงข้อมูลทั้งหมด)</span>
-                        </div>
-                        <div class="table-actions">
-                            <button class="btn btn-outline btn-sm" id="showOnlyFailed">
-                                <i class="fas fa-filter"></i> แสดงเฉพาะที่ไม่ผ่าน
-                            </button>
-                            <button class="btn btn-outline btn-sm" id="showAllResults">
-                                <i class="fas fa-list"></i> แสดงทั้งหมด
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="checking-table-wrapper">
-                        <table class="checking-table" id="checkingTable">
-                            <thead id="checkingTableHeader">
-                                <!-- Headers will be populated by JavaScript based on condition -->
-                            </thead>
-                            <tbody id="checkingTableBody">
-                                <!-- ข้อมูลจะถูกเพิ่มโดย JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- รายละเอียดการตรวจสอบ -->
-                <div class="checking-details">
-                    <h4><i class="fas fa-list-alt"></i> รายละเอียดผลการตรวจสอบ</h4>
-                    <div class="checking-results" id="checkingResults">
-                        <div class="result-summary">
-                            <p><i class="fas fa-info-circle"></i> กดปุ่มด้านบนเพื่อเริ่มตรวจสอบเงื่อนไข</p>
-                            <p class="result-note">เงื่อนไข "ประเภทอ้อย" ต้องการคอลัมน์: <strong>ชื่อประเภทอ้อย</strong> และ <strong>วันที่ปลูก</strong></p>
-                            <p class="result-note" style="background: #e8f5e9; color: #2e7d32; margin-top: 10px;">
-                                <i class="fas fa-info-circle"></i> วันที่ปลูกที่รองรับ: YYYY/MM/DD, YYYY/M/D, YYYY-MM-DD, DD/MM/YYYY
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="navigation-buttons">
-                    <button class="btn btn-outline" id="backToStep3">
-                        <i class="fas fa-arrow-left"></i> ย้อนกลับ
-                    </button>
-                    <button class="btn btn-success" id="nextToStep5">
-                        <i class="fas fa-arrow-right"></i> ดำเนินการต่อ
-                    </button>
-                </div>
+<!-- Step 4: Condition Checking -->
+<div class="step-panel" id="panel4">
+    <div class="panel-header">
+        <h2><i class="fas fa-search"></i> ตรวจสอบเงื่อนไขข้อมูลอ้อย</h2>
+        <p>เลือกเงื่อนไขที่ต้องการตรวจสอบ และดูผลการตรวจสอบในตารางด้านล่าง</p>
+    </div>
+    
+    <!-- ปุ่มเลือกเงื่อนไข -->
+    <div class="condition-selection">
+        <h3><i class="fas fa-filter"></i> เลือกเงื่อนไขที่ต้องการตรวจสอบ</h3>
+        <div class="condition-buttons">
+            <button class="condition-select-btn active" data-condition="sugarcane">
+                <i class="fas fa-seedling"></i> ประเภทอ้อย
+                <span class="condition-desc">(ต้องมีคอลัมน์: ชื่อประเภทอ้อย, วันที่ปลูก)</span>
+            </button>
+            <button class="condition-select-btn" data-condition="fertilizer">
+                <i class="fas fa-prescription-bottle"></i> ปุ๋ย
+                <span class="condition-desc">(ต้องมีคอลัมน์ที่เกี่ยวข้องกับปุ๋ย)</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- ข้อมูลการตรวจสอบ -->
+    <div class="checking-controls">
+        <div class="checking-info">
+            <h4><i class="fas fa-info-circle"></i> สถานะการตรวจสอบ</h4>
+            <div class="checking-stats">
+                <span>เงื่อนไขที่เลือก: <strong id="selectedCondition">ประเภทอ้อย</strong></span>
+                <span>ตรวจพบ: <strong id="foundIssues">0</strong> ปัญหา</span>
+                <span>ผ่าน: <strong id="passedChecks">0</strong> รายการ</span>
+                <span>ไม่ผ่าน: <strong id="failedChecks">0</strong> รายการ</span>
+                <span>แสดง: <strong id="checkingRowsCount">0</strong> แถวทั้งหมด</span>
             </div>
+        </div>
+        <div class="checking-actions">
+            <button class="btn btn-primary" id="runSelectedCheck">
+                <i class="fas fa-play"></i> เริ่มตรวจสอบเงื่อนไขที่เลือก
+            </button>
+            <button class="btn btn-success" id="runAllChecks">
+                <i class="fas fa-play-circle"></i> ตรวจสอบเงื่อนไขทั้งหมด
+            </button>
+            <button class="btn btn-outline" id="exportCheckResults">
+                <i class="fas fa-download"></i> ส่งออกผลตรวจสอบ
+            </button>
+        </div>
+    </div>
+    
+    <!-- ตารางแสดงข้อมูลและผลตรวจสอบ -->
+    <div class="checking-table-container">
+        <div class="table-controls">
+            <div class="table-info">
+                <span><i class="fas fa-table"></i> ตารางผลการตรวจสอบเงื่อนไข (แสดงข้อมูลทั้งหมด)</span>
+            </div>
+            <div class="table-actions">
+                <button class="btn btn-outline btn-sm" id="showOnlyFailed">
+                    <i class="fas fa-filter"></i> แสดงเฉพาะที่ไม่ผ่าน
+                </button>
+                <button class="btn btn-outline btn-sm" id="showAllResults">
+                    <i class="fas fa-list"></i> แสดงทั้งหมด
+                </button>
+            </div>
+        </div>
+        
+        <div class="checking-table-wrapper">
+            <table class="checking-table" id="checkingTable">
+                <thead id="checkingTableHeader">
+                    <!-- Headers will be populated by JavaScript based on condition -->
+                </thead>
+                <tbody id="checkingTableBody">
+                    <!-- ข้อมูลจะถูกเพิ่มโดย JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- รายละเอียดการตรวจสอบ -->
+    <div class="checking-details">
+        <h4><i class="fas fa-list-alt"></i> รายละเอียดผลการตรวจสอบ</h4>
+        <div class="checking-results" id="checkingResults">
+            <div class="result-summary">
+                <p><i class="fas fa-info-circle"></i> กดปุ่มด้านบนเพื่อเริ่มตรวจสอบเงื่อนไข</p>
+                <p class="result-note">เงื่อนไข "ประเภทอ้อย" ต้องการคอลัมน์: <strong>ชื่อประเภทอ้อย</strong> และ <strong>วันที่ปลูก</strong></p>
+                <p class="result-note" style="background: #e8f5e9; color: #2e7d32; margin-top: 10px;">
+                    <i class="fas fa-info-circle"></i> วันที่ปลูกที่รองรับ: YYYY/MM/DD, YYYY/M/D, YYYY-MM-DD, DD/MM/YYYY
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="navigation-buttons">
+        <button class="btn btn-outline" id="backToStep3">
+            <i class="fas fa-arrow-left"></i> ย้อนกลับ
+        </button>
+        <button class="btn btn-success" id="nextToStep5">
+            <i class="fas fa-arrow-right"></i> ดำเนินการต่อ
+        </button>
+    </div>
+</div>
+
+<style>
+    /* ขั้นตอนที่ 4: ตรวจสอบเงื่อนไข - สไตล์ใหม่ */
+    .condition-selection {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+    
+    .condition-selection h3 {
+        color: var(--secondary-color);
+        margin-bottom: 20px;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .condition-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+    }
+    
+    .condition-select-btn {
+        padding: 20px 15px;
+        background-color: #f8f9fa;
+        border: 2px solid #e9ecef;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .condition-select-btn:hover {
+        background-color: #e9ecef;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .condition-select-btn.active {
+        background-color: rgba(67, 97, 238, 0.1);
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+    
+    .condition-select-btn[data-condition="sugarcane"].active {
+        background-color: rgba(34, 139, 34, 0.1);
+        border-color: var(--sugarcane-color);
+        color: var(--sugarcane-color);
+    }
+    
+    .condition-select-btn[data-condition="activity"].active {
+        background-color: rgba(76, 201, 240, 0.1);
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+    }
+    
+    .condition-select-btn[data-condition="project"].active {
+        background-color: rgba(255, 87, 34, 0.1);
+        border-color: var(--project-color);
+        color: var(--project-color);
+    }
+    
+    .condition-select-btn[data-condition="fertilizer"].active {
+        background-color: rgba(156, 39, 176, 0.1);
+        border-color: var(--fertilizer-color);
+        color: var(--fertilizer-color);
+    }
+    
+    .condition-select-btn i {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+    }
+    
+    .condition-desc {
+        font-size: 0.85rem;
+        color: #666;
+        line-height: 1.4;
+    }
+    
+    /* Checking controls */
+    .checking-controls {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 20px;
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    
+    .checking-info {
+        flex: 1;
+        min-width: 300px;
+    }
+    
+    .checking-info h4 {
+        color: var(--secondary-color);
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+    
+    .checking-stats {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .checking-stats span {
+        background: #f8f9fa;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        color: #495057;
+    }
+    
+    .checking-stats strong {
+        color: var(--primary-color);
+    }
+    
+    .checking-actions {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    
+    /* Checking table */
+    .checking-table-container {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        margin-bottom: 25px;
+        overflow: hidden;
+    }
+    
+    .table-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .table-info {
+        display: flex;
+        gap: 20px;
+        color: #6c757d;
+        font-size: 0.9rem;
+        align-items: center;
+    }
+    
+    .table-info span:first-child {
+        font-weight: 500;
+        color: var(--secondary-color);
+    }
+    
+    .checking-table-wrapper {
+        max-height: 600px;
+        overflow-y: auto;
+        padding: 0;
+    }
+    
+    .checking-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1000px;
+    }
+    
+    /* ปรับขนาดคอลัมน์สำหรับตารางตรวจสอบเงื่อนไข */
+    .checking-table th:nth-child(1),
+    .checking-table td:nth-child(1) {
+        width: 50px;
+        min-width: 50px;
+        max-width: 50px;
+        text-align: center;
+    }
+    
+    .checking-table th:nth-child(2),
+    .checking-table td:nth-child(2) {
+        width: 150px;
+        min-width: 150px;
+        max-width: 150px;
+    }
+    
+    .checking-table th:nth-child(3),
+    .checking-table td:nth-child(3) {
+        width: 150px;
+        min-width: 150px;
+        max-width: 150px;
+    }
+    
+    .checking-table th:nth-child(4),
+    .checking-table td:nth-child(4) {
+        width: 120px;
+        min-width: 120px;
+        max-width: 120px;
+    }
+    
+    .checking-table th:nth-child(5),
+    .checking-table td:nth-child(5) {
+        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
+        text-align: center;
+    }
+    
+    .checking-table th:nth-child(6),
+    .checking-table td:nth-child(6) {
+        width: 150px;
+        min-width: 150px;
+        max-width: 150px;
+    }
+    
+    .checking-table th:nth-child(7),
+    .checking-table td:nth-child(7) {
+        width: 120px;
+        min-width: 120px;
+        max-width: 120px;
+    }
+    
+    .checking-table th:nth-child(8),
+    .checking-table td:nth-child(8) {
+        width: 120px;
+        min-width: 120px;
+        max-width: 120px;
+        text-align: center;
+    }
+    
+    .checking-table th:nth-child(9),
+    .checking-table td:nth-child(9) {
+        width: 120px;
+        min-width: 120px;
+        max-width: 120px;
+        text-align: center;
+    }
+    
+    .checking-table th:nth-child(10),
+    .checking-table td:nth-child(10) {
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+    }
+    
+    /* ปรับปรุงการแสดงผลวันที่ปลูก */
+    .checking-table td:nth-child(4) {
+        font-size: 0.9em;
+        word-break: break-word;
+        white-space: normal;
+        line-height: 1.3;
+    }
+    
+    .checking-table th {
+        background: var(--primary-color);
+        color: white;
+        padding: 12px 15px;
+        text-align: left;
+        font-weight: 500;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 2px solid var(--secondary-color);
+    }
+    
+    .checking-table td {
+        padding: 10px 15px;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.3s ease;
+    }
+    
+    .checking-table tr:hover td {
+        background: #f8f9fa;
+    }
+    
+    /* ✅ แถวที่ไม่มีข้อมูลวันที่ปลูก - สีเหลือง */
+    .checking-table tr.warning-row {
+        background-color: rgba(255, 248, 225, 0.7) !important;
+        border-left: 4px solid var(--warning-color) !important;
+    }
+    
+    .checking-table tr.warning-row:hover td {
+        background-color: rgba(255, 248, 225, 0.9) !important;
+    }
+    
+    .checking-table tr.warning-row td {
+        border-bottom: 1px solid rgba(255, 248, 225, 0.5);
+    }
+    
+    /* สำหรับวันที่ปลูกที่ยาวเกินไป */
+    .checking-table td[title] {
+        cursor: help;
+    }
+    
+    /* เมื่อต้องการแสดงวันที่เต็ม */
+    .date-cell-compact:hover {
+        overflow: visible;
+        white-space: normal;
+        background-color: #fffde7 !important;
+        z-index: 100;
+        position: relative;
+    }
+    
+    /* สำหรับหน้าจอขนาดเล็ก */
+    @media (max-width: 768px) {
+        .checking-table th:nth-child(4),
+        .checking-table td:nth-child(4) {
+            width: 100px;
+            min-width: 100px;
+            max-width: 100px;
+            font-size: 0.85em;
+        }
+        
+        .checking-table th:nth-child(3),
+        .checking-table td:nth-child(3) {
+            width: 120px;
+            min-width: 120px;
+            max-width: 120px;
+            font-size: 0.9em;
+        }
+    }
+    
+    /* Status badges */
+    .status-badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-align: center;
+        min-width: 80px;
+    }
+    
+    .status-valid {
+        background: rgba(76, 175, 80, 0.1);
+        color: var(--success-color);
+        border: 1px solid rgba(76, 175, 80, 0.3);
+    }
+    
+    .status-warning {
+        background: rgba(255, 152, 0, 0.1);
+        color: var(--warning-color);
+        border: 1px solid rgba(255, 152, 0, 0.3);
+    }
+    
+    .status-error {
+        background: rgba(247, 37, 133, 0.1);
+        color: var(--danger-color);
+        border: 1px solid rgba(247, 37, 133, 0.3);
+    }
+    
+    .status-info {
+        background: rgba(67, 97, 238, 0.1);
+        color: var(--primary-color);
+        border: 1px solid rgba(67, 97, 238, 0.3);
+    }
+    
+    /* Checking details */
+    .checking-details {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+    
+    .checking-details h4 {
+        color: var(--secondary-color);
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .checking-results {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    
+    .result-summary {
+        padding: 15px;
+        background: white;
+        border-radius: 8px;
+        border-left: 4px solid var(--primary-color);
+    }
+    
+    .result-summary p {
+        margin-bottom: 10px;
+        color: #495057;
+    }
+    
+    .result-note {
+        background: #fff3e0;
+        padding: 10px 15px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        color: #e65100;
+    }
+    
+    .result-item {
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        background: white;
+        border-radius: 8px;
+        border-left: 4px solid #ddd;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .result-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    
+    .result-item.error {
+        border-left-color: var(--danger-color);
+        background: rgba(247, 37, 133, 0.05);
+    }
+    
+    .result-item.warning {
+        border-left-color: var(--warning-color);
+        background: rgba(255, 152, 0, 0.05);
+    }
+    
+    .result-item.success {
+        border-left-color: var(--success-color);
+        background: rgba(76, 175, 80, 0.05);
+    }
+    
+    .result-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+    }
+    
+    .result-condition {
+        font-weight: 500;
+        color: var(--secondary-color);
+    }
+    
+    .result-count {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    .result-details {
+        font-size: 0.9rem;
+        color: #495057;
+        margin-top: 5px;
+    }
+    
+    .result-details ul {
+        margin-left: 20px;
+        margin-top: 5px;
+    }
+    
+    .result-details li {
+        margin-bottom: 3px;
+        color: #666;
+    }
+    
+    @media (max-width: 768px) {
+        .condition-buttons {
+            grid-template-columns: 1fr;
+        }
+        
+        .condition-select-btn {
+            padding: 15px;
+        }
+        
+        .checking-stats {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checking-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+        
+        .checking-actions button {
+            width: 100%;
+        }
+    }
+</style>
+
+<script>
+// ฟังก์ชันตรวจสอบเงื่อนไขอ้อยตามข้อกำหนด
+function checkSugarcaneConditions(data) {
+    let results = {
+        totalRows: 0,
+        passed: 0,
+        failed: 0,
+        warnings: 0,
+        issues: [],
+        tableData: []
+    };
+
+    // ตรวจสอบว่ามีคอลัมน์ที่จำเป็นหรือไม่
+    const requiredColumns = ['ชื่อประเภทอ้อย', 'วันที่ปลูก'];
+    const missingColumns = requiredColumns.filter(col => !data.columns.includes(col));
+    
+    if (missingColumns.length > 0) {
+        results.issues.push({
+            type: 'error',
+            message: `ขาดคอลัมน์ที่จำเป็น: ${missingColumns.join(', ')}`,
+            details: 'ไม่สามารถตรวจสอบเงื่อนไขได้เนื่องจากไม่มีข้อมูลที่จำเป็น'
+        });
+        return results;
+    }
+
+    // ประเภทอ้อยที่ปลูกใหม่
+    const newSugarcaneTypes = [
+        'ปลายฝนขยาย', 
+        'ปลายฝนรื้อตอ', 
+        'ต้นฝนขยาย', 
+        'ต้นฝนรื้อตอ'
+    ];
+    
+    // ประเภทอ้อยตอ
+    const ratoonSugarcaneTypes = [
+        'ตอ1', 
+        'ตอ2', 
+        'ตอ3', 
+        '>ตอ3'
+    ];
+
+    // ฟังก์ชันคำนวณอายุอ้อยจากวันที่ปลูก
+    function calculateAge(plantingDate) {
+        if (!plantingDate) return null;
+        
+        try {
+            // แปลงรูปแบบวันที่ต่างๆ
+            let date;
+            
+            // ลองรูปแบบ YYYY/MM/DD หรือ YYYY-M-D
+            if (plantingDate.includes('/') || plantingDate.includes('-')) {
+                const parts = plantingDate.split(/[/-]/);
+                if (parts.length === 3) {
+                    // ถ้าเป็นรูปแบบ DD/MM/YYYY
+                    if (parts[0].length === 2 && parts[2].length === 4) {
+                        date = new Date(parts[2], parts[1] - 1, parts[0]);
+                    } 
+                    // ถ้าเป็นรูปแบบ YYYY/MM/DD
+                    else if (parts[0].length === 4 && parts[2].length === 2) {
+                        date = new Date(parts[0], parts[1] - 1, parts[2]);
+                    }
+                }
+            }
+            
+            // ถ้ายังแปลงไม่ได้ ให้ลองแปลงเป็น Date ตรงๆ
+            if (!date || isNaN(date.getTime())) {
+                date = new Date(plantingDate);
+            }
+            
+            if (isNaN(date.getTime())) {
+                return null;
+            }
+            
+            const today = new Date();
+            const diffTime = Math.abs(today - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            return diffDays;
+        } catch (error) {
+            console.error('Error calculating age:', error);
+            return null;
+        }
+    }
+
+    // ฟังก์ชันตรวจสอบช่วงอายุ
+    function checkAgeRange(age, min, max) {
+        if (age === null) return false;
+        return age >= min && age <= max;
+    }
+
+    // ตรวจสอบแต่ละแถวของข้อมูล
+    data.rows.forEach((row, index) => {
+        const rowNumber = index + 1;
+        const sugarcaneType = row['ชื่อประเภทอ้อย'];
+        const plantingDate = row['วันที่ปลูก'];
+        
+        // คำนวณอายุ
+        const age = calculateAge(plantingDate);
+        
+        // ดึงข้อมูลปุ๋ย (หากมี)
+        const fertilizer1 = row['ประเภทการใส่ปุ๋ยงวด1'] || row['ปุ๋ยงวด1'] || row['Fertilizer1'] || '';
+        const fertilizer2 = row['ประเภทการใส่ปุ๋ยงวด2'] || row['ปุ๋ยงวด2'] || row['Fertilizer2'] || '';
+        const fertilizer3 = row['ประเภทการใส่ปุ๋ยงวด3'] || row['ปุ๋ยงวด3'] || row['Fertilizer3'] || '';
+        
+        let status = 'ผ่าน';
+        let notes = [];
+        let rowStatus = 'valid';
+        
+        // ตรวจสอบว่ามีข้อมูลประเภทอ้อยหรือไม่
+        if (!sugarcaneType) {
+            status = 'ไม่ผ่าน';
+            rowStatus = 'error';
+            notes.push('ไม่มีข้อมูลประเภทอ้อย');
+        }
+        
+        // ตรวจสอบว่ามีข้อมูลวันที่ปลูกหรือไม่
+        if (!plantingDate) {
+            status = 'ไม่ผ่าน';
+            rowStatus = 'error';
+            notes.push('ไม่มีข้อมูลวันที่ปลูก');
+        } else if (age === null) {
+            status = 'คำเตือน';
+            rowStatus = 'warning';
+            notes.push('รูปแบบวันที่ปลูกไม่ถูกต้อง');
+        }
+        
+        // ตรวจสอบเงื่อนไขตามประเภทอ้อยและอายุ
+        if (sugarcaneType && age !== null) {
+            // ตรวจสอบว่าเป็นอ้อยประเภทใด
+            const isNewSugarcane = newSugarcaneTypes.includes(sugarcaneType);
+            const isRatoonSugarcane = ratoonSugarcaneTypes.includes(sugarcaneType);
+            
+            if (!isNewSugarcane && !isRatoonSugarcane) {
+                status = 'คำเตือน';
+                rowStatus = 'warning';
+                notes.push(`ประเภทอ้อย "${sugarcaneType}" ไม่ตรงกับประเภทที่กำหนด`);
+            } else {
+                // ตรวจสอบเงื่อนไขปุ๋ยงวด 1
+                if (checkAgeRange(age, 1, 60)) {
+                    if (isNewSugarcane) {
+                        if (fertilizer1 !== 'รองพื้น') {
+                            status = 'ไม่ผ่าน';
+                            rowStatus = 'error';
+                            notes.push(`ปุ๋ยงวด1 ควรเป็น "รองพื้น" (ปัจจุบัน: "${fertilizer1}")`);
+                        }
+                    } else if (isRatoonSugarcane) {
+                        if (fertilizer1 !== 'แต่งหน้าครั้งที่1') {
+                            status = 'ไม่ผ่าน';
+                            rowStatus = 'error';
+                            notes.push(`ปุ๋ยงวด1 ควรเป็น "แต่งหน้าครั้งที่1" (ปัจจุบัน: "${fertilizer1}")`);
+                        }
+                    }
+                }
+                
+                // ตรวจสอบเงื่อนไขปุ๋ยงวด 2
+                if (checkAgeRange(age, 61, 120)) {
+                    if (isNewSugarcane) {
+                        if (fertilizer2 !== 'แต่งหน้าครั้งที่1') {
+                            status = 'ไม่ผ่าน';
+                            rowStatus = 'error';
+                            notes.push(`ปุ๋ยงวด2 ควรเป็น "แต่งหน้าครั้งที่1" (ปัจจุบัน: "${fertilizer2}")`);
+                        }
+                    } else if (isRatoonSugarcane) {
+                        if (fertilizer2 !== 'แต่งหน้าครั้งที่2') {
+                            status = 'ไม่ผ่าน';
+                            rowStatus = 'error';
+                            notes.push(`ปุ๋ยงวด2 ควรเป็น "แต่งหน้าครั้งที่2" (ปัจจุบัน: "${fertilizer2}")`);
+                        }
+                    }
+                }
+                
+                // ตรวจสอบเงื่อนไขปุ๋ยงวด 3
+                if (checkAgeRange(age, 121, 180)) {
+                    if (isNewSugarcane) {
+                        if (fertilizer3 !== 'แต่งหน้าครั้งที่2') {
+                            status = 'ไม่ผ่าน';
+                            rowStatus = 'error';
+                            notes.push(`ปุ๋ยงวด3 ควรเป็น "แต่งหน้าครั้งที่2" (ปัจจุบัน: "${fertilizer3}")`);
+                        }
+                    } else if (isRatoonSugarcane) {
+                        if (fertilizer3 !== 'แต่งหน้าครั้งที่3') {
+                            status = 'ไม่ผ่าน';
+                            rowStatus = 'error';
+                            notes.push(`ปุ๋ยงวด3 ควรเป็น "แต่งหน้าครั้งที่3" (ปัจจุบัน: "${fertilizer3}")`);
+                        }
+                    }
+                }
+                
+                // ตรวจสอบว่าอายุเกิน 180 วันหรือไม่
+                if (age > 180) {
+                    notes.push(`อายุอ้อยเกิน 180 วัน (${age} วัน) - เกินเกณฑ์การตรวจสอบ`);
+                }
+            }
+        }
+        
+        // นับผลลัพธ์
+        if (rowStatus === 'valid') {
+            results.passed++;
+        } else if (rowStatus === 'error') {
+            results.failed++;
+        } else if (rowStatus === 'warning') {
+            results.warnings++;
+        }
+        
+        // เพิ่มข้อมูลแถวลงในผลลัพธ์
+        results.tableData.push({
+            row: rowNumber,
+            sugarcaneType: sugarcaneType || '-',
+            plantingDate: plantingDate || '-',
+            age: age !== null ? `${age} วัน` : 'คำนวณไม่ได้',
+            fertilizer1: fertilizer1 || '-',
+            fertilizer2: fertilizer2 || '-',
+            fertilizer3: fertilizer3 || '-',
+            status: status,
+            rowClass: rowStatus,
+            notes: notes.join('; ')
+        });
+        
+        // เพิ่มปัญหาในรายงานสรุป
+        if (rowStatus !== 'valid') {
+            results.issues.push({
+                type: rowStatus,
+                row: rowNumber,
+                message: `แถวที่ ${rowNumber}: ${notes.join('; ')}`,
+                details: {
+                    type: sugarcaneType,
+                    age: age,
+                    fertilizers: [fertilizer1, fertilizer2, fertilizer3]
+                }
+            });
+        }
+    });
+    
+    results.totalRows = data.rows.length;
+    return results;
+}
+
+// ฟังก์ชันแสดงผลลัพธ์ในตาราง
+function displaySugarcaneCheckResults(results) {
+    const tableBody = document.getElementById('checkingTableBody');
+    const tableHeader = document.getElementById('checkingTableHeader');
+    
+    // ล้างตารางเก่า
+    tableBody.innerHTML = '';
+    
+    // สร้าง header ของตาราง
+    tableHeader.innerHTML = `
+        <tr>
+            <th>ลำดับ</th>
+            <th>ประเภทอ้อย</th>
+            <th>วันที่ปลูก</th>
+            <th>อายุ (วัน)</th>
+            <th>ปุ๋ยงวด 1</th>
+            <th>ปุ๋ยงวด 2</th>
+            <th>ปุ๋ยงวด 3</th>
+            <th>สถานะ</th>
+            <th>ตรวจสอบแล้ว</th>
+            <th>หมายเหตุ</th>
+        </tr>
+    `;
+    
+    // เพิ่มข้อมูลแถว
+    results.tableData.forEach(item => {
+        const row = document.createElement('tr');
+        row.className = item.rowClass + '-row';
+        
+        // สร้าง badge สำหรับสถานะ
+        let statusBadge;
+        if (item.status === 'ผ่าน') {
+            statusBadge = '<span class="status-badge status-valid">✓ ผ่าน</span>';
+        } else if (item.status === 'ไม่ผ่าน') {
+            statusBadge = '<span class="status-badge status-error">✗ ไม่ผ่าน</span>';
+        } else {
+            statusBadge = '<span class="status-badge status-warning">⚠ คำเตือน</span>';
+        }
+        
+        // ตรวจสอบว่ามีข้อมูลหรือไม่
+        const checkedBadge = '<span class="status-badge status-info">✓ ตรวจสอบแล้ว</span>';
+        
+        row.innerHTML = `
+            <td>${item.row}</td>
+            <td>${item.sugarcaneType}</td>
+            <td class="date-cell-compact" title="${item.plantingDate}">${item.plantingDate}</td>
+            <td>${item.age}</td>
+            <td>${item.fertilizer1}</td>
+            <td>${item.fertilizer2}</td>
+            <td>${item.fertilizer3}</td>
+            <td>${statusBadge}</td>
+            <td>${checkedBadge}</td>
+            <td>${item.notes || '-'}</td>
+        `;
+        
+        tableBody.appendChild(row);
+    });
+    
+    // อัพเดทสถิติ
+    document.getElementById('foundIssues').textContent = results.issues.length;
+    document.getElementById('passedChecks').textContent = results.passed;
+    document.getElementById('failedChecks').textContent = results.failed;
+    document.getElementById('checkingRowsCount').textContent = results.totalRows;
+    
+    // แสดงรายละเอียดผลการตรวจสอบ
+    displayCheckDetails(results);
+}
+
+// ฟังก์ชันแสดงรายละเอียดผลการตรวจสอบ
+function displayCheckDetails(results) {
+    const checkingResults = document.getElementById('checkingResults');
+    
+    let html = `
+        <div class="result-summary">
+            <h5><i class="fas fa-chart-bar"></i> สรุปผลการตรวจสอบ</h5>
+            <p>ตรวจสอบทั้งหมด: <strong>${results.totalRows}</strong> แถว</p>
+            <div style="display: flex; gap: 20px; margin: 10px 0;">
+                <span style="color: #4CAF50;"><i class="fas fa-check-circle"></i> ผ่าน: ${results.passed}</span>
+                <span style="color: #f44336;"><i class="fas fa-times-circle"></i> ไม่ผ่าน: ${results.failed}</span>
+                <span style="color: #FF9800;"><i class="fas fa-exclamation-triangle"></i> คำเตือน: ${results.warnings}</span>
+            </div>
+    `;
+    
+    if (results.issues.length > 0) {
+        html += `<h5 style="margin-top: 20px;"><i class="fas fa-exclamation-circle"></i> รายการปัญหา (${results.issues.length} รายการ)</h5>`;
+        
+        // แยกปัญหาตามประเภท
+        const errors = results.issues.filter(issue => issue.type === 'error');
+        const warnings = results.issues.filter(issue => issue.type === 'warning');
+        
+        if (errors.length > 0) {
+            html += `<div class="result-item error" style="margin-top: 10px;">
+                <div class="result-header">
+                    <span class="result-condition">ปัญหาไม่ผ่านเงื่อนไข</span>
+                    <span class="result-count">${errors.length} รายการ</span>
+                </div>
+                <div class="result-details">
+                    <ul>`;
+            
+            errors.slice(0, 5).forEach(error => {
+                html += `<li>${error.message}</li>`;
+            });
+            
+            if (errors.length > 5) {
+                html += `<li>และอีก ${errors.length - 5} รายการ...</li>`;
+            }
+            
+            html += `</ul></div></div>`;
+        }
+        
+        if (warnings.length > 0) {
+            html += `<div class="result-item warning" style="margin-top: 10px;">
+                <div class="result-header">
+                    <span class="result-condition">คำเตือน</span>
+                    <span class="result-count">${warnings.length} รายการ</span>
+                </div>
+                <div class="result-details">
+                    <ul>`;
+            
+            warnings.slice(0, 5).forEach(warning => {
+                html += `<li>${warning.message}</li>`;
+            });
+            
+            if (warnings.length > 5) {
+                html += `<li>และอีก ${warnings.length - 5} รายการ...</li>`;
+            }
+            
+            html += `</ul></div></div>`;
+        }
+    } else {
+        html += `<div class="result-item success" style="margin-top: 15px;">
+            <div class="result-header">
+                <span class="result-condition">✓ การตรวจสอบเสร็จสมบูรณ์</span>
+            </div>
+            <div class="result-details">
+                <p>ไม่พบปัญหาในการตรวจสอบเงื่อนไขอ้อย</p>
+            </div>
+        </div>`;
+    }
+    
+    html += `</div>`;
+    
+    checkingResults.innerHTML = html;
+}
+
+// ฟังก์ชันสำหรับการส่งออกผลตรวจสอบ
+function exportCheckResults() {
+    const tableData = window.checkResults ? window.checkResults.tableData : [];
+    
+    if (tableData.length === 0) {
+        alert('ยังไม่มีผลการตรวจสอบสำหรับส่งออก');
+        return;
+    }
+    
+    // สร้าง CSV content
+    let csvContent = "ลำดับ,ประเภทอ้อย,วันที่ปลูก,อายุ(วัน),ปุ๋ยงวด1,ปุ๋ยงวด2,ปุ๋ยงวด3,สถานะ,หมายเหตุ\n";
+    
+    tableData.forEach(item => {
+        const row = [
+            item.row,
+            item.sugarcaneType,
+            item.plantingDate,
+            item.age,
+            item.fertilizer1,
+            item.fertilizer2,
+            item.fertilizer3,
+            item.status,
+            item.notes
+        ];
+        
+        // Escape commas and quotes
+        const escapedRow = row.map(field => {
+            if (typeof field === 'string' && (field.includes(',') || field.includes('"') || field.includes('\n'))) {
+                return `"${field.replace(/"/g, '""')}"`;
+            }
+            return field;
+        });
+        
+        csvContent += escapedRow.join(',') + "\n";
+    });
+    
+    // Create download link
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `ผลตรวจสอบอ้อย_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// ฟังก์ชันหลักสำหรับตรวจสอบเงื่อนไขอ้อย
+function runSugarcaneConditionCheck() {
+    // ดึงข้อมูลจากขั้นตอนที่ 3
+    const processedData = window.processedData; // ข้อมูลที่ประมวลผลแล้วจากขั้นตอนที่ 3
+    
+    if (!processedData || !processedData.rows || processedData.rows.length === 0) {
+        alert('ไม่มีข้อมูลสำหรับตรวจสอบ กรุณากลับไปยังขั้นตอนที่ 3 เพื่อประมวลผลข้อมูลก่อน');
+        return;
+    }
+    
+    // ตรวจสอบเงื่อนไข
+    const results = checkSugarcaneConditions(processedData);
+    
+    // เก็บผลลัพธ์ไว้ใน global variable สำหรับใช้ส่งออก
+    window.checkResults = results;
+    
+    // แสดงผลลัพธ์
+    displaySugarcaneCheckResults(results);
+    
+    // อัพเดท UI
+    document.getElementById('selectedCondition').textContent = 'ประเภทอ้อย';
+    
+    // แสดงแถบสถานะแจ้งเตือน
+    showNotification(`ตรวจสอบเสร็จสิ้น: ผ่าน ${results.passed} รายการ, ไม่ผ่าน ${results.failed} รายการ, คำเตือน ${results.warnings} รายการ`, 
+                     results.failed === 0 ? 'success' : 'warning');
+}
+
+// ฟังก์ชันแจ้งเตือน
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+        <span>${message}</span>
+    `;
+    
+    // สไตล์ notification
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#4CAF50' : type === 'warning' ? '#FF9800' : '#4361ee'};
+        color: white;
+        padding: 15px 20px;
+        border-radius: 5px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    // เพิ่ม animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    document.body.appendChild(notification);
+    
+    // ลบ notification หลังจาก 5 วินาที
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 5000);
+}
+
+// เพิ่ม Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // เมื่อคลิกปุ่มตรวจสอบเงื่อนไขอ้อย
+    const conditionButtons = document.querySelectorAll('.condition-select-btn[data-condition="sugarcane"]');
+    conditionButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // อัพเดทปุ่มที่เลือก
+            document.querySelectorAll('.condition-select-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // อัพเดทชื่อเงื่อนไขที่เลือก
+            document.getElementById('selectedCondition').textContent = 'ประเภทอ้อย';
+        });
+    });
+    
+    // เมื่อคลิกปุ่ม "เริ่มตรวจสอบเงื่อนไขที่เลือก"
+    document.getElementById('runSelectedCheck').addEventListener('click', function() {
+        const activeCondition = document.querySelector('.condition-select-btn.active');
+        if (activeCondition && activeCondition.dataset.condition === 'sugarcane') {
+            runSugarcaneConditionCheck();
+        } else {
+            alert('กรุณาเลือกเงื่อนไข "ประเภทอ้อย" ก่อน');
+        }
+    });
+    
+    // เมื่อคลิกปุ่ม "ตรวจสอบเงื่อนไขทั้งหมด"
+    document.getElementById('runAllChecks').addEventListener('click', function() {
+        // ในตัวอย่างนี้เราจะตรวจสอบเฉพาะเงื่อนไขอ้อย
+        runSugarcaneConditionCheck();
+    });
+    
+    // ปุ่มสำหรับส่งออกผลตรวจสอบ
+    document.getElementById('exportCheckResults').addEventListener('click', exportCheckResults);
+    
+    // ปุ่มสำหรับแสดงเฉพาะแถวที่ไม่ผ่าน
+    document.getElementById('showOnlyFailed').addEventListener('click', function() {
+        const allRows = document.querySelectorAll('#checkingTableBody tr');
+        let visibleCount = 0;
+        
+        allRows.forEach(row => {
+            if (row.classList.contains('error-row')) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        
+        document.getElementById('checkingRowsCount').textContent = visibleCount;
+    });
+    
+    // ปุ่มสำหรับแสดงทั้งหมด
+    document.getElementById('showAllResults').addEventListener('click', function() {
+        const allRows = document.querySelectorAll('#checkingTableBody tr');
+        allRows.forEach(row => {
+            row.style.display = '';
+        });
+        
+        if (window.checkResults) {
+            document.getElementById('checkingRowsCount').textContent = window.checkResults.totalRows;
+        }
+    });
+    
+    // ปุ่มนำทางย้อนกลับ
+    document.getElementById('backToStep3').addEventListener('click', function() {
+        document.getElementById('panel3').style.display = 'block';
+        document.getElementById('panel4').style.display = 'none';
+    });
+    
+    // ปุ่มนำทางต่อไป
+    document.getElementById('nextToStep5').addEventListener('click', function() {
+        // ตรวจสอบว่ามีการตรวจสอบข้อมูลแล้วหรือยัง
+        if (!window.checkResults) {
+            if (!confirm('คุณยังไม่ได้ตรวจสอบข้อมูล คุณต้องการตรวจสอบก่อนดำเนินการต่อหรือไม่?')) {
+                // ถ้าไม่ต้องการตรวจสอบ ก็ไปขั้นต่อไปเลย
+                document.getElementById('panel4').style.display = 'none';
+                document.getElementById('panel5').style.display = 'block';
+            }
+            return;
+        }
+        
+        // ตรวจสอบว่ามีแถวที่ไม่ผ่านหรือไม่
+        if (window.checkResults.failed > 0) {
+            if (!confirm(`พบ ${window.checkResults.failed} รายการที่ไม่ผ่านการตรวจสอบ คุณต้องการดำเนินการต่อหรือไม่?`)) {
+                return;
+            }
+        }
+        
+        document.getElementById('panel4').style.display = 'none';
+        document.getElementById('panel5').style.display = 'block';
+    });
+});
+</script>
             
             <!-- Step 5: Column Selection for Export -->
             <div class="step-panel" id="panel5">
