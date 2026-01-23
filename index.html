@@ -5607,304 +5607,315 @@ uploadArea.addEventListener('dragover', (e) => {
             return results;
         }
         
-        // ✅ แก้ไขฟังก์ชัน prepareFertilizerCheckingTable()
-        function prepareFertilizerCheckingTable() {
-            const tableBody = document.getElementById('checkingTableBody');
-            tableBody.innerHTML = '';
+function prepareFertilizerCheckingTable() {
+    const tableBody = document.getElementById('checkingTableBody');
+    tableBody.innerHTML = '';
+    
+    // ค้นหาคอลัมน์ที่เกี่ยวข้องกับปุ๋ยตามโครงสร้างที่กำหนด
+    const fertilizerColumns = [
+        { name: "เลขแปลงintech", keywords: ["แปลงintech", "แปลง intech", "แปลง"] },
+        { name: "ชื่อประเภทอ้อย", keywords: ["ชื่อประเภทอ้อย", "ประเภทอ้อย", "พันธุ์อ้อย"] },
+        { name: "อายุอ้อย", keywords: ["อายุอ้อย", "อายุ", "age", "วัน"] },
+        { name: "ประเภทการใส่ปุ๋ยงวด 1", keywords: ["ประเภทการใส่ปุ๋ยงวด 1", "ประเภทปุ๋ยงวด1", "ปุ๋ยงวด1"] },
+        { name: "สูตรปุ๋ยเคมีครั้งที่1", keywords: ["สูตรปุ๋ยเคมีครั้งที่1", "สูตรปุ๋ย1", "ปุ๋ยเคมี1"] },
+        { name: "ประเภทการใส่ปุ๋ยงวด 2", keywords: ["ประเภทการใส่ปุ๋ยงวด 2", "ประเภทปุ๋ยงวด2", "ปุ๋ยงวด2"] },
+        { name: "ปุ๋ยเคมีงวด2", keywords: ["ปุ๋ยเคมีงวด2", "สูตรปุ๋ย2", "ปุ๋ยเคมี2"] },
+        { name: "ประเภทการใส่ปุ๋ยงวด 3", keywords: ["ประเภทการใส่ปุ๋ยงวด 3", "ประเภทปุ๋ยงวด3", "ปุ๋ยงวด3"] },
+        { name: "ปุ๋ยเคมีงวด 3", keywords: ["ปุ๋ยเคมีงวด 3", "สูตรปุ๋ย3", "ปุ๋ยเคมี3"] }
+    ];
+    
+    // หาคอลัมน์ที่ตรงกับความต้องการ
+    const foundColumns = {};
+    
+    fertilizerColumns.forEach(colDef => {
+        let foundColumn = null;
+        
+        // ค้นหาด้วยชื่อตรง
+        for (const col of selectedColumns) {
+            const colLower = col.toLowerCase().trim();
+            const reqNameLower = colDef.name.toLowerCase();
             
-            // ค้นหาคอลัมน์ที่เกี่ยวข้องกับปุ๋ยตามโครงสร้างที่กำหนด
-            const fertilizerColumns = [
-                { name: "เลขแปลงintech", keywords: ["แปลงintech", "แปลง intech", "แปลง"] },
-                { name: "ชื่อประเภทอ้อย", keywords: ["ชื่อประเภทอ้อย", "ประเภทอ้อย", "พันธุ์อ้อย"] },
-                { name: "อายุอ้อย", keywords: ["อายุอ้อย", "อายุ", "age", "วัน"] },
-                { name: "ประเภทการใส่ปุ๋ยงวด 1", keywords: ["ประเภทการใส่ปุ๋ยงวด 1", "ประเภทปุ๋ยงวด1", "ปุ๋ยงวด1"] },
-                { name: "สูตรปุ๋ยเคมีครั้งที่1", keywords: ["สูตรปุ๋ยเคมีครั้งที่1", "สูตรปุ๋ย1", "ปุ๋ยเคมี1"] },
-                { name: "ประเภทการใส่ปุ๋ยงวด 2", keywords: ["ประเภทการใส่ปุ๋ยงวด 2", "ประเภทปุ๋ยงวด2", "ปุ๋ยงวด2"] },
-                { name: "ปุ๋ยเคมีงวด2", keywords: ["ปุ๋ยเคมีงวด2", "สูตรปุ๋ย2", "ปุ๋ยเคมี2"] },
-                { name: "ประเภทการใส่ปุ๋ยงวด 3", keywords: ["ประเภทการใส่ปุ๋ยงวด 3", "ประเภทปุ๋ยงวด3", "ปุ๋ยงวด3"] },
-                { name: "ปุ๋ยเคมีงวด 3", keywords: ["ปุ๋ยเคมีงวด 3", "สูตรปุ๋ย3", "ปุ๋ยเคมี3"] }
-            ];
-            
-            // หาคอลัมน์ที่ตรงกับความต้องการ
-            const foundColumns = {};
-            
-            fertilizerColumns.forEach(colDef => {
-                let foundColumn = null;
-                
-                // ค้นหาด้วยชื่อตรง
-                for (const col of selectedColumns) {
-                    const colLower = col.toLowerCase().trim();
-                    const reqNameLower = colDef.name.toLowerCase();
-                    
-                    if (colLower === reqNameLower) {
+            if (colLower === reqNameLower) {
+                foundColumn = col;
+                break;
+            }
+        }
+        
+        // ถ้าไม่เจอชื่อตรง ให้ค้นหาด้วยคำสำคัญ
+        if (!foundColumn) {
+            for (const col of selectedColumns) {
+                const colLower = col.toLowerCase();
+                for (const keyword of colDef.keywords) {
+                    if (colLower.includes(keyword.toLowerCase())) {
                         foundColumn = col;
                         break;
                     }
                 }
-                
-                // ถ้าไม่เจอชื่อตรง ให้ค้นหาด้วยคำสำคัญ
-                if (!foundColumn) {
-                    for (const col of selectedColumns) {
-                        const colLower = col.toLowerCase();
-                        for (const keyword of colDef.keywords) {
-                            if (colLower.includes(keyword.toLowerCase())) {
-                                foundColumn = col;
-                                break;
-                            }
-                        }
-                        if (foundColumn) break;
-                    }
-                }
-                
-                foundColumns[colDef.name] = foundColumn;
-            });
-            
-            // แสดงคอลัมน์ที่พบ
-            console.log('Found columns for fertilizer check:', foundColumns);
-            
-            // ตรวจสอบว่ามีคอลัมน์ที่จำเป็นหรือไม่
-            const requiredColumns = ["เลขแปลงintech", "ชื่อประเภทอ้อย", "อายุอ้อย"];
-            const missingRequiredColumns = [];
-            
-            requiredColumns.forEach(col => {
-                if (!foundColumns[col]) {
-                    missingRequiredColumns.push(col);
-                }
-            });
-            
-            if (missingRequiredColumns.length > 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="10" style="text-align: center; padding: 40px; background: #ffebee;">
-                            <div style="color: #d32f2f; font-size: 1.2rem; margin-bottom: 15px;">
-                                <i class="fas fa-exclamation-triangle"></i> <strong>ไม่พบคอลัมน์ที่จำเป็น</strong>
-                            </div>
-                            <p>กรุณาเลือกคอลัมน์เหล่านี้ในขั้นตอนที่ 2:</p>
-                            <ul style="text-align: left; display: inline-block; margin-top: 10px;">
-                                ${missingRequiredColumns.map(col => `<li>${col}</li>`).join('')}
-                            </ul>
-                            <p style="margin-top: 15px; color: #666;">
-                                <i class="fas fa-info-circle"></i> คอลัมน์ปุ๋ยอื่นๆ จะแสดงเป็นค่าว่างถ้าไม่พบ
-                            </p>
-                        </td>
-                    </tr>
-                `;
-                return;
+                if (foundColumn) break;
             }
-            
-            // ใช้ข้อมูลทั้งหมด
-            checkingTableData = [];
-            
-            uploadedData.data.forEach((row, rowIndex) => {
-                const rowData = {
-                    id: rowIndex + 1,
-                    originalRowIndex: rowIndex,
-                    intechPlot: foundColumns["เลขแปลงintech"] ? row[foundColumns["เลขแปลงintech"]] || '' : '',
-                    sugarcaneType: foundColumns["ชื่อประเภทอ้อย"] ? row[foundColumns["ชื่อประเภทอ้อย"]] || '' : '',
-                    age: foundColumns["อายุอ้อย"] ? row[foundColumns["อายุอ้อย"]] || '' : '',
-                    fertilizerType1: foundColumns["ประเภทการใส่ปุ๋ยงวด 1"] ? row[foundColumns["ประเภทการใส่ปุ๋ยงวด 1"]] || '' : '',
-                    fertilizerFormula1: foundColumns["สูตรปุ๋ยเคมีครั้งที่1"] ? row[foundColumns["สูตรปุ๋ยเคมีครั้งที่1"]] || '' : '',
-                    fertilizerType2: foundColumns["ประเภทการใส่ปุ๋ยงวด 2"] ? row[foundColumns["ประเภทการใส่ปุ๋ยงวด 2"]] || '' : '',
-                    fertilizerFormula2: foundColumns["ปุ๋ยเคมีงวด2"] ? row[foundColumns["ปุ๋ยเคมีงวด2"]] || '' : '',
-                    fertilizerType3: foundColumns["ประเภทการใส่ปุ๋ยงวด 3"] ? row[foundColumns["ประเภทการใส่ปุ๋ยงวด 3"]] || '' : '',
-                    fertilizerFormula3: foundColumns["ปุ๋ยเคมีงวด 3"] ? row[foundColumns["ปุ๋ยเคมีงวด 3"]] || '' : '',
-                    condition: getConditionDisplayName(currentCondition),
-                    status: "รอตรวจสอบ",
-                    notes: "ยังไม่ได้ตรวจสอบ",
-                    passed: false,
-                    failedCells: {}
-                };
-                
-                checkingTableData.push(rowData);
-            });
-            
-            // สร้าง header ตาราง
-            const tableHeader = document.getElementById('checkingTableHeader');
-            tableHeader.innerHTML = '';
-            
-            const headerRow = document.createElement('tr');
-            const headers = [
-                "ลำดับ",
-                "เลขแปลงintech", 
-                "ชื่อประเภทอ้อย",
-                "อายุอ้อย",
-                "ประเภทการใส่ปุ๋ยงวด 1",
-                "สูตรปุ๋ยเคมีครั้งที่1",
-                "ประเภทการใส่ปุ๋ยงวด 2",
-                "ปุ๋ยเคมีงวด2",
-                "ประเภทการใส่ปุ๋ยงวด 3",
-                "ปุ๋ยเคมีงวด 3"
-            ];
-            
-            headers.forEach(header => {
-                const th = document.createElement('th');
-                th.textContent = header;
-                headerRow.appendChild(th);
-            });
-            
-            tableHeader.appendChild(headerRow);
-            
-            // แสดงตาราง
-            renderFertilizerCheckingTable();
-            
-            // อัพเดตจำนวนแถว
-            document.getElementById('checkingRowsCount').textContent = checkingTableData.length;
-            
-            // แสดงข้อความแจ้งเตือนสำเร็จ
-            const resultsContainer = document.getElementById('checkingResults');
-            
-            // นับคอลัมน์ที่พบ
-            const foundCount = Object.values(foundColumns).filter(col => col !== null).length;
-            const totalColumns = fertilizerColumns.length;
-            
-            resultsContainer.innerHTML = `
-                <div class="result-summary" style="background: #e8f5e9; border-left-color: #4caf50;">
-                    <p><i class="fas fa-check-circle"></i> <strong>เตรียมตารางตรวจสอบ "${getConditionDisplayName(currentCondition)}" เสร็จเรียบร้อย</strong></p>
-                    <p>พบข้อมูลทั้งหมด: <strong>${checkingTableData.length} แถว</strong></p>
-                    <p>พบคอลัมน์ปุ๋ย: ${foundCount}/${totalColumns} คอลัมน์</p>
-                    <div style="margin-top: 10px; background: white; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
-                        <p><strong>คอลัมน์ที่พบ:</strong></p>
-                        <ul style="font-size: 0.9em; columns: 2; margin-top: 5px;">
-                            ${fertilizerColumns.map(colDef => {
-                                const foundCol = foundColumns[colDef.name];
-                                if (foundCol) {
-                                    return `<li><span style="color: #4caf50;">✓</span> ${colDef.name}: "${foundCol}"</li>`;
-                                } else {
-                                    return `<li><span style="color: #f44336;">✗</span> ${colDef.name}: ไม่พบ</li>`;
-                                }
-                            }).join('')}
-                        </ul>
-                    </div>
-                    <p style="margin-top: 15px;">
-                        <button class="btn btn-primary" id="startFertilizerCheckBtn">
-                            <i class="fas fa-play"></i> เริ่มตรวจสอบปุ๋ย
-                        </button>
-                    </p>
-                </div>
-            `;
-            
-            // เพิ่ม event listener ให้ปุ่มเริ่มตรวจสอบ
-            document.getElementById('startFertilizerCheckBtn').addEventListener('click', function() {
-                const results = performFertilizerConditionCheck();
-                updateCheckingTableWithResults(results, currentCondition);
-                updateCheckingStats(results);
-                displayCheckingResults(results, currentCondition);
-                
-                // แสดงผล
-                const message = `✅ ตรวจสอบเงื่อนไข "${getConditionDisplayName(currentCondition)}" เสร็จสิ้น\n\n` +
-                               `ตรวจทั้งหมด: ${results.totalRows} แถว\n` +
-                               `ผ่าน: ${results.passed} แถว\n` +
-                               `ไม่ผ่าน: ${results.failed} แถว\n` +
-                               (results.warnings > 0 ? `ต้องตรวจสอบ: ${results.warnings} แถว\n` : '');
-                alert(message);
-            });
         }
         
-        // ✅ แก้ไขฟังก์ชัน renderFertilizerCheckingTable()
-        function renderFertilizerCheckingTable() {
-            const tableBody = document.getElementById('checkingTableBody');
-            tableBody.innerHTML = '';
+        foundColumns[colDef.name] = foundColumn;
+    });
+    
+    // แสดงคอลัมน์ที่พบ
+    console.log('Found columns for fertilizer check:', foundColumns);
+    
+    // ตรวจสอบว่ามีคอลัมน์ที่จำเป็นหรือไม่
+    const requiredColumns = ["เลขแปลงintech", "ชื่อประเภทอ้อย", "อายุอ้อย"];
+    const missingRequiredColumns = [];
+    
+    requiredColumns.forEach(col => {
+        if (!foundColumns[col]) {
+            missingRequiredColumns.push(col);
+        }
+    });
+    
+    if (missingRequiredColumns.length > 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="12" style="text-align: center; padding: 40px; background: #ffebee;">
+                    <div style="color: #d32f2f; font-size: 1.2rem; margin-bottom: 15px;">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>ไม่พบคอลัมน์ที่จำเป็น</strong>
+                    </div>
+                    <p>กรุณาเลือกคอลัมน์เหล่านี้ในขั้นตอนที่ 2:</p>
+                    <ul style="text-align: left; display: inline-block; margin-top: 10px;">
+                        ${missingRequiredColumns.map(col => `<li>${col}</li>`).join('')}
+                    </ul>
+                    <p style="margin-top: 15px; color: #666;">
+                        <i class="fas fa-info-circle"></i> คอลัมน์ปุ๋ยอื่นๆ จะแสดงเป็นค่าว่างถ้าไม่พบ
+                    </p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    // ใช้ข้อมูลทั้งหมด
+    checkingTableData = [];
+    
+    uploadedData.data.forEach((row, rowIndex) => {
+        const rowData = {
+            id: rowIndex + 1,
+            originalRowIndex: rowIndex,
+            intechPlot: foundColumns["เลขแปลงintech"] ? row[foundColumns["เลขแปลงintech"]] || '' : '',
+            sugarcaneType: foundColumns["ชื่อประเภทอ้อย"] ? row[foundColumns["ชื่อประเภทอ้อย"]] || '' : '',
+            age: foundColumns["อายุอ้อย"] ? row[foundColumns["อายุอ้อย"]] || '' : '',
+            fertilizerType1: foundColumns["ประเภทการใส่ปุ๋ยงวด 1"] ? row[foundColumns["ประเภทการใส่ปุ๋ยงวด 1"]] || '' : '',
+            fertilizerFormula1: foundColumns["สูตรปุ๋ยเคมีครั้งที่1"] ? row[foundColumns["สูตรปุ๋ยเคมีครั้งที่1"]] || '' : '',
+            fertilizerType2: foundColumns["ประเภทการใส่ปุ๋ยงวด 2"] ? row[foundColumns["ประเภทการใส่ปุ๋ยงวด 2"]] || '' : '',
+            fertilizerFormula2: foundColumns["ปุ๋ยเคมีงวด2"] ? row[foundColumns["ปุ๋ยเคมีงวด2"]] || '' : '',
+            fertilizerType3: foundColumns["ประเภทการใส่ปุ๋ยงวด 3"] ? row[foundColumns["ประเภทการใส่ปุ๋ยงวด 3"]] || '' : '',
+            fertilizerFormula3: foundColumns["ปุ๋ยเคมีงวด 3"] ? row[foundColumns["ปุ๋ยเคมีงวด 3"]] || '' : '',
+            condition: getConditionDisplayName(currentCondition),
+            status: "รอตรวจสอบ",
+            notes: "ยังไม่ได้ตรวจสอบ",
+            passed: false,
+            failedCells: {}
+        };
+        
+        checkingTableData.push(rowData);
+    });
+    
+    // ✅ แก้ไข: สร้าง header ตารางใหม่ (เพิ่มคอลัมน์สถานะและหมายเหตุ)
+    const tableHeader = document.getElementById('checkingTableHeader');
+    tableHeader.innerHTML = '';
+    
+    const headerRow = document.createElement('tr');
+    const headers = [
+        "ลำดับ",
+        "เลขแปลงintech", 
+        "ชื่อประเภทอ้อย",
+        "อายุอ้อย",
+        "ประเภทการใส่ปุ๋ยงวด 1",
+        "สูตรปุ๋ยเคมีครั้งที่1",
+        "ประเภทการใส่ปุ๋ยงวด 2",
+        "ปุ๋ยเคมีงวด2",
+        "ประเภทการใส่ปุ๋ยงวด 3",
+        "ปุ๋ยเคมีงวด 3",
+        "สถานะ", // ✅ เพิ่มคอลัมน์สถานะ
+        "หมายเหตุ" // ✅ เพิ่มคอลัมน์หมายเหตุ
+    ];
+    
+    headers.forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+    });
+    
+    tableHeader.appendChild(headerRow);
+    
+    // แสดงตาราง
+    renderFertilizerCheckingTable();
+    
+    // อัพเดตจำนวนแถว
+    document.getElementById('checkingRowsCount').textContent = checkingTableData.length;
+    
+    // แสดงข้อความแจ้งเตือนสำเร็จ
+    const resultsContainer = document.getElementById('checkingResults');
+    
+    // นับคอลัมน์ที่พบ
+    const foundCount = Object.values(foundColumns).filter(col => col !== null).length;
+    const totalColumns = fertilizerColumns.length;
+    
+    resultsContainer.innerHTML = `
+        <div class="result-summary" style="background: #e8f5e9; border-left-color: #4caf50;">
+            <p><i class="fas fa-check-circle"></i> <strong>เตรียมตารางตรวจสอบ "${getConditionDisplayName(currentCondition)}" เสร็จเรียบร้อย</strong></p>
+            <p>พบข้อมูลทั้งหมด: <strong>${checkingTableData.length} แถว</strong></p>
+            <p>พบคอลัมน์ปุ๋ย: ${foundCount}/${totalColumns} คอลัมน์</p>
+            <div style="margin-top: 10px; background: white; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                <p><strong>คอลัมน์ที่พบ:</strong></p>
+                <ul style="font-size: 0.9em; columns: 2; margin-top: 5px;">
+                    ${fertilizerColumns.map(colDef => {
+                        const foundCol = foundColumns[colDef.name];
+                        if (foundCol) {
+                            return `<li><span style="color: #4caf50;">✓</span> ${colDef.name}: "${foundCol}"</li>`;
+                        } else {
+                            return `<li><span style="color: #f44336;">✗</span> ${colDef.name}: ไม่พบ</li>`;
+                        }
+                    }).join('')}
+                </ul>
+            </div>
+            <div style="margin-top: 10px; background: #e3f2fd; padding: 10px; border-radius: 6px; border: 1px solid #2196f3;">
+                <p><strong><i class="fas fa-info-circle"></i> ข้อมูลการตรวจสอบปุ๋ย:</strong></p>
+                <ul style="font-size: 0.9em; margin-top: 5px;">
+                    <li>ระบบจะตรวจสอบความสัมพันธ์ระหว่างประเภทอ้อย-อายุ-ปุ๋ย</li>
+                    <li>ประเภทปุ๋ยที่รับรอง: รองพื้น, แต่งหน้าครั้งที่1, แต่งหน้าครั้งที่2, แต่งหน้าครั้งที่3</li>
+                    <li>สูตรปุ๋ยเคมี: แสดงข้อมูลเท่านั้น ไม่ตรวจสอบ</li>
+                    <li>ผลการตรวจสอบจะแสดงในคอลัมน์ "สถานะ" และ "หมายเหตุ"</li>
+                </ul>
+            </div>
+            <p style="margin-top: 15px;">
+                <button class="btn btn-primary" id="startFertilizerCheckBtn">
+                    <i class="fas fa-play"></i> เริ่มตรวจสอบปุ๋ย
+                </button>
+            </p>
+        </div>
+    `;
+    
+    // เพิ่ม event listener ให้ปุ่มเริ่มตรวจสอบ
+    document.getElementById('startFertilizerCheckBtn').addEventListener('click', function() {
+        const results = performFertilizerConditionCheck();
+        updateCheckingTableWithResults(results, currentCondition);
+        updateCheckingStats(results);
+        displayCheckingResults(results, currentCondition);
+        
+        // แสดงผล
+        const message = `✅ ตรวจสอบเงื่อนไข "${getConditionDisplayName(currentCondition)}" เสร็จสิ้น\n\n` +
+                       `ตรวจทั้งหมด: ${results.totalRows} แถว\n` +
+                       `ผ่าน: ${results.passed} แถว\n` +
+                       `ไม่ผ่าน: ${results.failed} แถว\n` +
+                       (results.warnings > 0 ? `ต้องตรวจสอบ: ${results.warnings} แถว\n` : '');
+        alert(message);
+    });
+}
+        
+function renderFertilizerCheckingTable() {
+    const tableBody = document.getElementById('checkingTableBody');
+    tableBody.innerHTML = '';
+    
+    let displayedRows = 0;
+    
+    checkingTableData.forEach(rowData => {
+        // กรองแสดงเฉพาะที่ไม่ผ่านถ้าเลือก
+        if (showOnlyFailed && rowData.status === "ผ่าน") {
+            return;
+        }
+        
+        displayedRows++;
+        
+        const tr = document.createElement('tr');
+        
+        // ✅ แก้ไข: เพิ่มคอลัมน์สถานะและหมายเหตุ
+        const cells = [
+            rowData.id,
+            rowData.intechPlot || '(ไม่พบข้อมูล)',
+            rowData.sugarcaneType || '(ไม่พบข้อมูล)',
+            rowData.age || '',
+            rowData.fertilizerType1 || '',
+            rowData.fertilizerFormula1 || '',
+            rowData.fertilizerType2 || '',
+            rowData.fertilizerFormula2 || '',
+            rowData.fertilizerType3 || '',
+            rowData.fertilizerFormula3 || '',
+            createStatusBadge(rowData.status), // ✅ เพิ่มคอลัมน์สถานะ
+            rowData.notes || '' // ✅ เพิ่มคอลัมน์หมายเหตุ
+        ];
+        
+        cells.forEach((cellContent, cellIndex) => {
+            const td = document.createElement('td');
             
-            let displayedRows = 0;
-            
-            checkingTableData.forEach(rowData => {
-                // กรองแสดงเฉพาะที่ไม่ผ่านถ้าเลือก
-                if (showOnlyFailed && rowData.status === "ผ่าน") {
-                    return;
-                }
-                
-                displayedRows++;
-                
-                const tr = document.createElement('tr');
-                
-                // สร้างเซลล์ตามโครงสร้าง
-                const cells = [
-                    rowData.id,
-                    rowData.intechPlot || '(ไม่พบข้อมูล)',
-                    rowData.sugarcaneType || '(ไม่พบข้อมูล)',
-                    rowData.age || '',
-                    rowData.fertilizerType1 || '',
-                    rowData.fertilizerFormula1 || '',
-                    rowData.fertilizerType2 || '',
-                    rowData.fertilizerFormula2 || '',
-                    rowData.fertilizerType3 || '',
-                    rowData.fertilizerFormula3 || ''
-                ];
-                
-                cells.forEach((cellContent, cellIndex) => {
-                    const td = document.createElement('td');
-                    
-                    // สำหรับคอลัมน์อายุอ้อย (คอลัมน์ที่ 4)
-                    if (cellIndex === 3 && rowData.age) {
-                        const ageValue = parseFloat(rowData.age);
-                        if (!isNaN(ageValue)) {
-                            // แสดงสีตามอายุ
-                            if (ageValue < 0) {
-                                td.style.color = 'var(--danger-color)';
-                                td.style.fontWeight = 'bold';
-                                td.title = 'อายุอ้อยไม่สามารถเป็นค่าติดลบได้';
-                            } else if (ageValue > 365) {
-                                td.style.color = 'var(--warning-color)';
-                                td.style.fontWeight = 'bold';
-                                td.title = 'อายุอ้อยมากกว่า 1 ปี';
-                            }
-                        }
-                    }
-                    
-                    // สำหรับคอลัมน์ประเภทการใส่ปุ๋ย
-                    const fertilizerTypeCells = [4, 6, 8]; // คอลัมน์ 5, 7, 9 (index 4, 6, 8)
-                    if (fertilizerTypeCells.includes(cellIndex) && cellContent !== '') {
-                        const validTypes = ["หว่าน", "โรยข้างแถว", "รองก้นหลุม", "พ่นทางใบ"];
-                        if (!validTypes.includes(cellContent)) {
-                            td.style.color = 'var(--danger-color)';
-                            td.style.fontWeight = 'bold';
-                            td.title = `ประเภทการใส่ปุ๋ยไม่ถูกต้อง ต้องเป็นหนึ่งใน: ${validTypes.join(', ')}`;
-                        }
-                    }
-                    
-                    // สำหรับคอลัมน์สูตรปุ๋ยเคมี
-                    const fertilizerFormulaCells = [5, 7, 9]; // คอลัมน์ 6, 8, 10 (index 5, 7, 9)
-                    if (fertilizerFormulaCells.includes(cellIndex) && cellContent !== '') {
-                        // ตรวจสอบรูปแบบสูตรปุ๋ย (เช่น 16-16-16, 46-0-0)
-                        const fertilizerPattern = /^\d{1,2}-\d{1,2}-\d{1,2}$/;
-                        if (!fertilizerPattern.test(cellContent)) {
-                            td.style.color = 'var(--danger-color)';
-                            td.style.fontWeight = 'bold';
-                            td.title = 'รูปแบบสูตรปุ๋ยไม่ถูกต้อง ต้องเป็นรูปแบบ: XX-XX-XX';
-                        }
-                    }
-                    
-                    // ตรวจสอบค่าว่าง - แสดงเป็นสีเทา
-                    if (cellContent === '') {
-                        td.style.color = '#999';
-                        td.style.fontStyle = 'italic';
-                    } else {
-                        td.textContent = cellContent;
-                    }
-                    
-                    // ตรวจสอบข้อผิดพลาดในคอลัมน์
-                    if (rowData.failedCells && rowData.failedCells[cellIndex]) {
+            // สำหรับคอลัมน์อายุอ้อย (คอลัมน์ที่ 4)
+            if (cellIndex === 3 && rowData.age) {
+                const ageValue = parseFloat(rowData.age);
+                if (!isNaN(ageValue)) {
+                    // แสดงสีตามอายุ
+                    if (ageValue < 0) {
                         td.style.color = 'var(--danger-color)';
                         td.style.fontWeight = 'bold';
-                        td.style.backgroundColor = 'rgba(247, 37, 133, 0.1)';
-                    }
-                    
-                    // ถ้าผ่าน ให้เพิ่มสีเขียว
-                    if (rowData.passed && cellIndex > 0) {
-                        td.style.color = 'var(--success-color)';
+                        td.title = 'อายุอ้อยไม่สามารถเป็นค่าติดลบได้';
+                    } else if (ageValue > 365) {
+                        td.style.color = 'var(--warning-color)';
                         td.style.fontWeight = 'bold';
-                        td.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
+                        td.title = 'อายุอ้อยมากกว่า 1 ปี';
                     }
-                    
-                    tr.appendChild(td);
-                });
-                
-                tableBody.appendChild(tr);
-            });
+                }
+            }
             
-            // อัพเดตจำนวนแถวที่แสดง
-            document.getElementById('checkingRowsCount').textContent = displayedRows;
-        }
+            // สำหรับคอลัมน์ประเภทการใส่ปุ๋ย
+            const fertilizerTypeCells = [4, 6, 8]; // คอลัมน์ 5, 7, 9 (index 4, 6, 8)
+            if (fertilizerTypeCells.includes(cellIndex) && cellContent !== '') {
+                const validTypes = ["รองพื้น", "แต่งหน้าครั้งที่1", "แต่งหน้าครั้งที่2", "แต่งหน้าครั้งที่3"]; // ✅ แก้ไขเหลือ 4 ประเภท
+                if (!validTypes.includes(cellContent)) {
+                    td.style.color = 'var(--danger-color)';
+                    td.style.fontWeight = 'bold';
+                    td.title = `ประเภทการใส่ปุ๋ยไม่ถูกต้อง ต้องเป็นหนึ่งใน: ${validTypes.join(', ')}`;
+                }
+            }
+            
+            // ✅ แก้ไข: ไม่ต้องตรวจสอบคอลัมน์สูตรปุ๋ยเคมี
+            // สำหรับคอลัมน์สูตรปุ๋ยเคมี
+            // const fertilizerFormulaCells = [5, 7, 9]; // คอลัมน์ 6, 8, 10 (index 5, 7, 9)
+            // if (fertilizerFormulaCells.includes(cellIndex) && cellContent !== '') {
+            //     // ไม่ต้องตรวจสอบรูปแบบสูตรปุ๋ยแล้ว
+            // }
+            
+            // สำหรับคอลัมน์สถานะ (คอลัมน์ที่ 11, index 10)
+            if (cellIndex === 10) {
+                td.innerHTML = cellContent;
+            } else {
+                // ตรวจสอบค่าว่าง - แสดงเป็นสีเทา
+                if (cellContent === '') {
+                    td.style.color = '#999';
+                    td.style.fontStyle = 'italic';
+                } else {
+                    td.textContent = cellContent;
+                }
+            }
+            
+            // ตรวจสอบข้อผิดพลาดในคอลัมน์
+            if (rowData.failedCells && rowData.failedCells[cellIndex]) {
+                td.style.color = 'var(--danger-color)';
+                td.style.fontWeight = 'bold';
+                td.style.backgroundColor = 'rgba(247, 37, 133, 0.1)';
+            }
+            
+            // ถ้าผ่าน ให้เพิ่มสีเขียว
+            if (rowData.passed && cellIndex > 0 && cellIndex < 10) {
+                td.style.color = 'var(--success-color)';
+                td.style.fontWeight = 'bold';
+                td.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
+            }
+            
+            tr.appendChild(td);
+        });
+        
+        tableBody.appendChild(tr);
+    });
+    
+    // อัพเดตจำนวนแถวที่แสดง
+    document.getElementById('checkingRowsCount').textContent = displayedRows;
+}
         
 function performFertilizerConditionCheck() {
     const results = {
@@ -5916,31 +5927,18 @@ function performFertilizerConditionCheck() {
         issues: []
     };
 
-    // ข้อมูลสำหรับการตรวจสอบ
-    const validFertilizerTypes = ["หว่าน", "โรยข้างแถว", "รองก้นหลุม", "พ่นทางใบ", "รองพื้น", "แต่งหน้าครั้งที่1", "แต่งหน้าครั้งที่2", "แต่งหน้าครั้งที่3"];
-    const fertilizerPattern = /^\d{1,2}-\d{1,2}-\d{1,2}$/;
+    // ✅ แก้ไข: ประเภทการใส่ปุ๋ยที่รับรองใหม่ (แค่ 4 ประเภท)
+    const validFertilizerTypes = ["รองพื้น", "แต่งหน้าครั้งที่1", "แต่งหน้าครั้งที่2", "แต่งหน้าครั้งที่3"];
 
     checkingTableData.forEach((rowData, index) => {
         let passed = true;
         let notes = [];
         let failedCells = {};
         
-        // ตรวจสอบอายุอ้อย
+        // ✅ แก้ไข: ไม่ต้องตรวจสอบอายุอ้อยเป็นตัวเลข ≥ 0
         let ageValue = null;
         if (rowData.age && rowData.age.trim() !== '') {
             ageValue = parseFloat(rowData.age);
-            if (isNaN(ageValue)) {
-                passed = false;
-                notes.push("อายุอ้อยต้องเป็นตัวเลข");
-                failedCells[3] = true; // คอลัมน์อายุอ้อย
-            } else if (ageValue < 0) {
-                passed = false;
-                notes.push("อายุอ้อยไม่สามารถเป็นค่าติดลบได้");
-                failedCells[3] = true;
-            } else if (ageValue > 365) {
-                notes.push("อายุอ้อยมากกว่า 1 ปี (ตรวจสอบข้อมูล)");
-                results.warnings++;
-            }
         }
 
         // ตรวจสอบประเภทอ้อย
@@ -5948,19 +5946,21 @@ function performFertilizerConditionCheck() {
         const sugarcaneGroup = getSugarcaneGroup(sugarcaneType);
         
         // ✅ ตรวจสอบความสัมพันธ์ระหว่างประเภทอ้อย อายุ และประเภทการใส่ปุ๋ย
-        if (sugarcaneGroup !== "unknown" && sugarcaneType !== '' && ageValue !== null) {
+        if (sugarcaneGroup !== "unknown" && sugarcaneType !== '' && ageValue !== null && !isNaN(ageValue)) {
             // ตรวจสอบปุ๋ยงวด 1
             if (rowData.fertilizerType1 && rowData.fertilizerType1.trim() !== '') {
                 const fertilizerType1 = rowData.fertilizerType1.trim();
                 const expectedType1 = getExpectedFertilizerType(sugarcaneType, ageValue, 1);
                 
-                if (expectedType1 && fertilizerType1 !== expectedType1) {
-                    passed = false;
-                    notes.push(`ปุ๋ยงวด 1 ควรเป็น "${expectedType1}" (ปัจจุบัน: "${fertilizerType1}")`);
-                    failedCells[4] = true; // คอลัมน์ประเภทการใส่ปุ๋ยงวด 1
+                if (expectedType1) {
+                    if (fertilizerType1 !== expectedType1) {
+                        passed = false;
+                        notes.push(`ปุ๋ยงวด 1 ควรเป็น "${expectedType1}" (ปัจจุบัน: "${fertilizerType1}")`);
+                        failedCells[4] = true; // คอลัมน์ประเภทการใส่ปุ๋ยงวด 1
+                    }
                 }
                 
-                // ตรวจสอบว่าประเภทการใส่ปุ๋ยถูกต้องตามรายการ
+                // ✅ แก้ไข: ตรวจสอบว่าประเภทการใส่ปุ๋ยถูกต้องตามรายการใหม่
                 if (!validFertilizerTypes.includes(fertilizerType1)) {
                     passed = false;
                     notes.push(`ประเภทการใส่ปุ๋ยงวด 1 ไม่ถูกต้อง: "${fertilizerType1}"`);
@@ -5968,40 +5968,24 @@ function performFertilizerConditionCheck() {
                 }
             }
             
-            // ตรวจสอบสูตรปุ๋ยเคมีครั้งที่1
-            if (rowData.fertilizerFormula1 && rowData.fertilizerFormula1.trim() !== '') {
-                if (!fertilizerPattern.test(rowData.fertilizerFormula1)) {
-                    passed = false;
-                    notes.push("สูตรปุ๋ยเคมีครั้งที่1 ไม่ถูกต้อง");
-                    failedCells[5] = true;
-                }
-            }
-
             // ตรวจสอบปุ๋ยงวด 2
             if (rowData.fertilizerType2 && rowData.fertilizerType2.trim() !== '') {
                 const fertilizerType2 = rowData.fertilizerType2.trim();
                 const expectedType2 = getExpectedFertilizerType(sugarcaneType, ageValue, 2);
                 
-                if (expectedType2 && fertilizerType2 !== expectedType2) {
-                    passed = false;
-                    notes.push(`ปุ๋ยงวด 2 ควรเป็น "${expectedType2}" (ปัจจุบัน: "${fertilizerType2}")`);
-                    failedCells[6] = true; // คอลัมน์ประเภทการใส่ปุ๋ยงวด 2
+                if (expectedType2) {
+                    if (fertilizerType2 !== expectedType2) {
+                        passed = false;
+                        notes.push(`ปุ๋ยงวด 2 ควรเป็น "${expectedType2}" (ปัจจุบัน: "${fertilizerType2}")`);
+                        failedCells[6] = true; // คอลัมน์ประเภทการใส่ปุ๋ยงวด 2
+                    }
                 }
                 
-                // ตรวจสอบว่าประเภทการใส่ปุ๋ยถูกต้องตามรายการ
+                // ✅ แก้ไข: ตรวจสอบว่าประเภทการใส่ปุ๋ยถูกต้องตามรายการใหม่
                 if (!validFertilizerTypes.includes(fertilizerType2)) {
                     passed = false;
                     notes.push(`ประเภทการใส่ปุ๋ยงวด 2 ไม่ถูกต้อง: "${fertilizerType2}"`);
                     failedCells[6] = true;
-                }
-            }
-
-            // ตรวจสอบปุ๋ยเคมีงวด2
-            if (rowData.fertilizerFormula2 && rowData.fertilizerFormula2.trim() !== '') {
-                if (!fertilizerPattern.test(rowData.fertilizerFormula2)) {
-                    passed = false;
-                    notes.push("ปุ๋ยเคมีงวด2 ไม่ถูกต้อง");
-                    failedCells[7] = true;
                 }
             }
 
@@ -6010,43 +5994,36 @@ function performFertilizerConditionCheck() {
                 const fertilizerType3 = rowData.fertilizerType3.trim();
                 const expectedType3 = getExpectedFertilizerType(sugarcaneType, ageValue, 3);
                 
-                if (expectedType3 && fertilizerType3 !== expectedType3) {
-                    passed = false;
-                    notes.push(`ปุ๋ยงวด 3 ควรเป็น "${expectedType3}" (ปัจจุบัน: "${fertilizerType3}")`);
-                    failedCells[8] = true; // คอลัมน์ประเภทการใส่ปุ๋ยงวด 3
+                if (expectedType3) {
+                    if (fertilizerType3 !== expectedType3) {
+                        passed = false;
+                        notes.push(`ปุ๋ยงวด 3 ควรเป็น "${expectedType3}" (ปัจจุบัน: "${fertilizerType3}")`);
+                        failedCells[8] = true; // คอลัมน์ประเภทการใส่ปุ๋ยงวด 3
+                    }
                 }
                 
-                // ตรวจสอบว่าประเภทการใส่ปุ๋ยถูกต้องตามรายการ
+                // ✅ แก้ไข: ตรวจสอบว่าประเภทการใส่ปุ๋ยถูกต้องตามรายการใหม่
                 if (!validFertilizerTypes.includes(fertilizerType3)) {
                     passed = false;
                     notes.push(`ประเภทการใส่ปุ๋ยงวด 3 ไม่ถูกต้อง: "${fertilizerType3}"`);
                     failedCells[8] = true;
                 }
             }
-
-            // ตรวจสอบปุ๋ยเคมีงวด 3
-            if (rowData.fertilizerFormula3 && rowData.fertilizerFormula3.trim() !== '') {
-                if (!fertilizerPattern.test(rowData.fertilizerFormula3)) {
-                    passed = false;
-                    notes.push("ปุ๋ยเคมีงวด 3 ไม่ถูกต้อง");
-                    failedCells[9] = true;
-                }
-            }
         } else {
-            // ถ้าไม่มีข้อมูลประเภทอ้อยหรืออายุ ให้ตรวจสอบแบบพื้นฐาน
+            // ถ้าไม่มีข้อมูลประเภทอ้อยหรืออายุ
+            if (sugarcaneType === '') {
+                notes.push("ไม่มีข้อมูลประเภทอ้อย");
+            }
+            if (ageValue === null || isNaN(ageValue)) {
+                notes.push("ไม่มีข้อมูลอายุอ้อยหรืออายุไม่ถูกต้อง");
+            }
+            
+            // ✅ แก้ไข: ตรวจสอบแค่ว่าประเภทปุ๋ยอยู่ในรายการที่กำหนดหรือไม่
             if (rowData.fertilizerType1 && rowData.fertilizerType1.trim() !== '') {
                 if (!validFertilizerTypes.includes(rowData.fertilizerType1.trim())) {
                     passed = false;
                     notes.push("ประเภทการใส่ปุ๋ยงวด 1 ไม่ถูกต้อง");
                     failedCells[4] = true;
-                }
-            }
-
-            if (rowData.fertilizerFormula1 && rowData.fertilizerFormula1.trim() !== '') {
-                if (!fertilizerPattern.test(rowData.fertilizerFormula1)) {
-                    passed = false;
-                    notes.push("สูตรปุ๋ยเคมีครั้งที่1 ไม่ถูกต้อง");
-                    failedCells[5] = true;
                 }
             }
 
@@ -6058,14 +6035,6 @@ function performFertilizerConditionCheck() {
                 }
             }
 
-            if (rowData.fertilizerFormula2 && rowData.fertilizerFormula2.trim() !== '') {
-                if (!fertilizerPattern.test(rowData.fertilizerFormula2)) {
-                    passed = false;
-                    notes.push("ปุ๋ยเคมีงวด2 ไม่ถูกต้อง");
-                    failedCells[7] = true;
-                }
-            }
-
             if (rowData.fertilizerType3 && rowData.fertilizerType3.trim() !== '') {
                 if (!validFertilizerTypes.includes(rowData.fertilizerType3.trim())) {
                     passed = false;
@@ -6073,36 +6042,16 @@ function performFertilizerConditionCheck() {
                     failedCells[8] = true;
                 }
             }
-
-            if (rowData.fertilizerFormula3 && rowData.fertilizerFormula3.trim() !== '') {
-                if (!fertilizerPattern.test(rowData.fertilizerFormula3)) {
-                    passed = false;
-                    notes.push("ปุ๋ยเคมีงวด 3 ไม่ถูกต้อง");
-                    failedCells[9] = true;
-                }
-            }
         }
 
-        // ตรวจสอบความสอดคล้องระหว่างประเภทปุ๋ยและสูตรปุ๋ย
-        const fertilizerPeriods = [
-            { type: rowData.fertilizerType1, formula: rowData.fertilizerFormula1, period: 1 },
-            { type: rowData.fertilizerType2, formula: rowData.fertilizerFormula2, period: 2 },
-            { type: rowData.fertilizerType3, formula: rowData.fertilizerFormula3, period: 3 }
-        ];
-
-        fertilizerPeriods.forEach(period => {
-            if ((period.type && !period.formula) || (!period.type && period.formula)) {
-                passed = false;
-                notes.push(`งวด ${period.period}: ต้องระบุทั้งประเภทและสูตรปุ๋ยคู่กัน`);
-                failedCells[4 + (period.period - 1) * 2] = true; // ประเภท
-                failedCells[5 + (period.period - 1) * 2] = true; // สูตร
-            }
-        });
-
-        if (passed) {
+        if (passed && notes.length === 0) {
             results.passed++;
             rowData.status = "ผ่าน";
-            rowData.notes = notes.length > 0 ? notes.join('; ') : "✓ ข้อมูลปุ๋ยถูกต้องทั้งหมด";
+            rowData.notes = "✓ ปุ๋ยตรงกับเงื่อนไขความสัมพันธ์";
+        } else if (sugarcaneType === '' || ageValue === null || isNaN(ageValue)) {
+            results.warnings++;
+            rowData.status = "รอตรวจสอบ";
+            rowData.notes = notes.join('; ') || "ไม่มีข้อมูลประเภทอ้อยหรืออายุ";
         } else {
             results.failed++;
             rowData.status = "ไม่ผ่าน";
@@ -6226,7 +6175,7 @@ function getExpectedFertilizerType(sugarcaneType, age, period) {
                     </ul>
             `;
             
-            if (condition === "fertilizer") {
+if (condition === "fertilizer") {
     html += `
         <div style="margin-top: 15px; padding: 10px; background: #e3f2fd; border-radius: 6px; border-left: 4px solid #2196f3;">
             <p><strong><i class="fas fa-info-circle"></i> มาตรฐานการตรวจสอบปุ๋ย:</strong></p>
@@ -6234,10 +6183,6 @@ function getExpectedFertilizerType(sugarcaneType, age, period) {
                 <div style="background: white; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
                     <h4 style="color: #2196f3; margin-bottom: 5px;">ประเภทการใส่ปุ๋ยที่รับรอง</h4>
                     <ul style="font-size: 0.9em;">
-                        <li>หว่าน</li>
-                        <li>โรยข้างแถว</li>
-                        <li>รองก้นหลุม</li>
-                        <li>พ่นทางใบ</li>
                         <li><strong>รองพื้น</strong> (อ้อยปลูกใหม่ อายุ 1-60 วัน)</li>
                         <li><strong>แต่งหน้าครั้งที่1</strong></li>
                         <li><strong>แต่งหน้าครั้งที่2</strong></li>
@@ -6247,20 +6192,12 @@ function getExpectedFertilizerType(sugarcaneType, age, period) {
                 <div style="background: white; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
                     <h4 style="color: #2196f3; margin-bottom: 5px;">รูปแบบสูตรปุ๋ยเคมี</h4>
                     <ul style="font-size: 0.9em;">
-                        <li>รูปแบบ: XX-XX-XX</li>
+                        <li>แสดงข้อมูลเท่านั้น ไม่ตรวจสอบ</li>
                         <li>ตัวอย่าง: 16-16-16</li>
                         <li>ตัวอย่าง: 46-0-0</li>
                         <li>ตัวอย่าง: 21-7-18</li>
                     </ul>
                 </div>
-            </div>
-            <div style="background: white; padding: 10px; border-radius: 5px; margin-top: 10px; border: 1px solid #ddd;">
-                <h4 style="color: #2196f3; margin-bottom: 5px;">เงื่อนไขการตรวจสอบ</h4>
-                <ul style="font-size: 0.9em;">
-                    <li>อายุอ้อยต้องเป็นตัวเลข ≥ 0</li>
-                    <li>ต้องระบุทั้งประเภทและสูตรปุ๋ยคู่กัน (ถ้ามีข้อมูล)</li>
-                    <li>อายุอ้อย > 365 วัน = ต้องตรวจสอบ</li>
-                </ul>
             </div>
             <div style="background: white; padding: 10px; border-radius: 5px; margin-top: 10px; border: 1px solid #ddd;">
                 <h4 style="color: #2196f3; margin-bottom: 5px;">เงื่อนไขความสัมพันธ์ระหว่างประเภทอ้อย-อายุ-ปุ๋ย</h4>
